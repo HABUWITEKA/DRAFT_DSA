@@ -1,0 +1,92 @@
+import javafx.scene.Scene;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
+import javafx.stage.Stage;
+
+import java.io.FileInputStream;
+
+public class Runner {
+
+    OurFileReader fileReader;
+    Scene scene;
+    ImageView[][] matrixImages;
+    ElementsMaps elements;
+
+    Runner(Scene scene, OurFileReader fileReader, ImageView[][] matrixImages, ElementsMaps elements) {
+        this.scene = scene;
+        this.fileReader = fileReader;
+        this.matrixImages = matrixImages;
+        this.elements = elements;
+    }
+
+
+    public void detect4DIrections(){
+        this.scene.setOnKeyPressed(event -> {
+                String key = event.getCode().toString();
+                if(key=="RIGHT"){
+                    moveRight();
+                }
+                if(key=="UP"){
+                    moveUp();
+                }
+                if(key=="LEFT"){
+                    moveLeft();
+                }
+                if(key=="DOWN"){
+                    moveDown();
+                }
+            }
+        );
+    }
+
+
+    public void changeDetect(){
+        int currentRow = fileReader.currentPosition.get("row");
+        int currentCol = fileReader.currentPosition.get("col");
+        System.out.println(currentRow+ " " + currentCol);
+        try{
+            Image image = new Image(new FileInputStream(
+                    elements.altImagesMap.get(fileReader.matrix[currentRow][currentCol])
+            ));
+            System.out.println(fileReader.matrix[currentRow][currentCol]);
+            System.out.println(elements.altImagesMap.get(fileReader.matrix[currentRow][currentCol]));
+            matrixImages[currentRow][currentCol].setImage(image);
+        }catch (Exception exc){
+            System.out.println("No image man");
+        }
+    }
+    public void moveUp(){
+        int currentRow = fileReader.currentPosition.get("row");
+        if(currentRow >0){
+            fileReader.currentPosition.put("row", currentRow-1);
+        }
+        changeDetect();
+    }
+
+    public void moveDown(){
+        int currentRow = fileReader.currentPosition.get("row");
+        if(currentRow < fileReader.getRows() -1 ){
+            fileReader.currentPosition.put("row", currentRow+1);
+        }
+        changeDetect();
+    }
+
+    public void moveLeft(){
+        int currentCol = fileReader.currentPosition.get("col");
+        if(currentCol > 0){
+            fileReader.currentPosition.put("col", currentCol-1);
+        }
+        changeDetect();
+    }
+    public void moveRight(){
+        int currentCol = fileReader.currentPosition.get("col");
+        if(currentCol < fileReader.getCols() - 1 ){
+            fileReader.currentPosition.put("col", currentCol+1);
+        }
+        changeDetect();
+    }
+
+    public static void main(String[] args) {
+
+    }
+}
