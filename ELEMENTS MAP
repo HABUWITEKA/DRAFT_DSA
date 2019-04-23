@@ -1,0 +1,70 @@
+import java.util.HashMap;
+import java.lang.String;
+
+
+public class ElementsMaps {
+    String[][] elementsArray = {
+           {"assets/images/road.jpg", "True", "-1", "assets/images/road_alt.jpg"},
+           {"assets/images/boulder.jpg", "False", "0" , "assets/images/boulder_alt.jpg"},
+           {"assets/images/pothole.jpg", "True", "-2", "assets/images/pothole_alt.jpg"},
+           {"assets/images/explosive.jpg", "True", "-4", "assets/images/explosive_alt.jpg"},
+           {"assets/images/coyote.jpg", "True", "-8", "assets/images/coyote_alt.jpg"},
+           {"assets/images/tarred.jpg", "True", "+1", "assets/images/tarred_alt.jpg"},
+           {"assets/images/gold.jpg", "True", "+5", "assets/images/gold_alt.jpg"},
+            null,
+           {"assets/images/start.jpg", "True", "0", "assets/images/start_alt.jpg"},
+           {"assets/images/goal.jpg", "True", "0", "assets/images/goal_alt.jpg"},
+    };
+
+    /**
+     * keeps track of elements images
+     */
+    HashMap<Integer, String> imagesMap =  new HashMap<Integer, String>();
+
+    /**
+     * keeps track of elements images alternatives
+     */
+    HashMap<Integer, String> altImagesMap =  new HashMap<Integer, String>();
+
+    /**
+     * Determines if we can pass in certain elements
+     */
+    HashMap<Integer, Boolean> canPassMap =  new HashMap<Integer, Boolean>();
+
+    /**
+     * Maps elements to their respective energy influences when passed through
+     */
+    HashMap<Integer, Integer> energyMap =  new HashMap<Integer, Integer>();
+
+    /**
+     * Constructor
+     */
+    ElementsMaps(){
+        this.prepareMaps();
+    }
+    /**
+     * matching elements to their respective maps
+     */
+    public void prepareMaps(){
+      for(int i=0;  i < elementsArray.length; i++){
+          /** Continue if we meet empty stuff*/
+          if(i == 7 ){
+              continue;
+          }
+          /** add to images */
+          final String put = imagesMap.put(i, elementsArray[i][0]);
+          /** add to alternative images */
+          altImagesMap.put(i, elementsArray[i][3]);
+          /** add to energy */
+          energyMap.put(i, Integer.parseInt(elementsArray[i][2].trim()));
+          /** add to canPassMap */
+          canPassMap.put(i, Boolean.parseBoolean(elementsArray[i][1].trim()));
+      }
+
+    }
+
+    public static void main(String[] args) {
+
+    }
+
+}
